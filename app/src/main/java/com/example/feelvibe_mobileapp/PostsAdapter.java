@@ -77,7 +77,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
          @Override
          public void onClick(View v) {
              if(postModel.isLiked()){
-
                      postModel.setLiked(false);
                      holder.like.setImageResource(R.drawable.like_image);
                      FirebaseFirestore
