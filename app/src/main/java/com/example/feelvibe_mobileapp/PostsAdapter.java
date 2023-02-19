@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -38,7 +39,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
         notifyDataSetChanged();
     }
 
-    @androidx.annotation.NonNull
+    @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@androidx.annotation.NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_view,parent, false);
@@ -56,7 +57,47 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
      }
      holder.postText.setText(postModel.getPostText());
 
-     String uid = postModel.getPostId();
+     FirebaseFirestore.getInstance()
+             .collection("likes")
+             .document(postModel.getPostId()+ FirebaseAuth.getInstance()
+                     .getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                 @Override
+                 public void onSuccess(DocumentSnapshot documentSnapshot) {
+                 if(documentSnapshot!=null){
+                     postModel.setLiked(true);
+                 }else{
+                     postModel.setLiked(false);
+                 }
+                 }
+             });
+
+  //postModel.setLiked(false);
+
+     holder.like.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             if(postModel.isLiked()){
+
+                     postModel.setLiked(false);
+                     holder.like.setImageResource(R.drawable.like_image);
+                     FirebaseFirestore
+                             .getInstance()
+                             .collection("Likes")
+                             .document(postModel.getPostId()+ FirebaseAuth.getInstance().getUid())
+                             .delete();
+                 }else{
+                     postModel.setLiked(true);
+                     holder.like.setImageResource(R.drawable.like_image_blue);
+                     FirebaseFirestore.getInstance()
+                             .collection("Likes")
+                             .document(postModel.getPostId()+ FirebaseAuth.getInstance().getUid())
+                             .set(new PostModel("hi"));
+                 }
+             }
+
+     });
+
+     String uid = postModel.getUserId();
      FirebaseFirestore.getInstance().collection("Users").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

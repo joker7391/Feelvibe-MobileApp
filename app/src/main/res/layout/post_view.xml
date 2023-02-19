@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -32,6 +33,7 @@
                 />
         </RelativeLayout>
         <TextView
+            android:paddingLeft="3dp"
             android:id="@+id/postText"
             android:textSize="20sp"
             android:layout_width="match_parent"
@@ -44,28 +46,34 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             />
-        <LinearLayout
-            android:gravity="center"
-            android:weightSum="2"
-            android:orientation="horizontal"
+        <androidx.cardview.widget.CardView
+            android:layout_margin="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:padding="10dp"
-                android:src="@drawable/like_image"
-                android:id="@+id/like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:padding="10dp"
-                android:src="@drawable/comment_image"
-                android:id="@+id/comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:src="@drawable/like_image"
+                    android:id="@+id/like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:src="@drawable/comment_image"
+                    android:id="@+id/comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 </LinearLayout>

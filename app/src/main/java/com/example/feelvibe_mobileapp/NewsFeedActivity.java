@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.feelvibe_mobileapp.databinding.ActivityNewsFeedBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +29,21 @@ public class NewsFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNewsFeedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        FirebaseFirestore
+                .getInstance()
+                .collection("Users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                UserModel userModel = documentSnapshot.toObject(UserModel.class);
+                if(userModel.getUserProfile()!=null){
+                    Glide.with(NewsFeedActivity.this).load(userModel.getUserProfile()).into(binding.imageView);
+                }
+            }
+        });
 
         postsAdapter=new PostsAdapter(this);
         binding.postRecyclerView.setAdapter(postsAdapter);
