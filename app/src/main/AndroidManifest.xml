@@ -12,6 +12,13 @@
         android:theme="@style/Theme.FeelvibeMobileApp"
         tools:targetApi="31">
         <activity
+            android:name=".CommentsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".CreatePostActivity"
             android:exported="false">
             <meta-data

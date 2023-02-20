@@ -1,6 +1,7 @@
 package com.example.feelvibe_mobileapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
      }
      holder.postText.setText(postModel.getPostText());
 
+     holder.comment.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             Intent intent = new Intent(context, CommentsActivity.class);
+             intent.putExtra("id",postModel.getPostId());
+             context.startActivity(intent);
+         }
+     });
+
      FirebaseFirestore.getInstance()
              .collection("likes")
              .document(postModel.getPostId()+ FirebaseAuth.getInstance()
@@ -65,8 +75,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
                  public void onSuccess(DocumentSnapshot documentSnapshot) {
                  if(documentSnapshot!=null){
                      postModel.setLiked(true);
+                     holder.like.setImageResource(R.drawable.like_image_blue);
                  }else{
                      postModel.setLiked(false);
+                     holder.like.setImageResource(R.drawable.like_image);
                  }
                  }
              });
